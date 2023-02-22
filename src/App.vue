@@ -1,6 +1,7 @@
 <template>
   <div class="container">
-    <Header title="List to do"/>
+    <Header title="List to do" />
+    <AddTask @add-task="addTask" />
     <Tasks @toggle-reminder="toggleReminder" @delete-task="deleteTask" :tasks="tasks"/>
   </div>
 </template>
@@ -8,27 +9,34 @@
 <script>
 import Header from './components/Header.vue'
 import Tasks from './components/Tasks.vue'
+import AddTask from './components/AddTask.vue'
 
 export default{
   name: 'App',
   components: {
     Header,
     Tasks,
-  },
+    AddTask,
+},
   data() {
     return {
-      tasks: []
+      tasks: [],
     }
   },
   methods:{
+    addTask(task) {
+      this.tasks = [...this.tasks, task]
+    },
     deleteTask(id) {
       if (confirm('Are you lonely?')) {
+        //filter()
         this.tasks = this.tasks.filter((task)=> task.id !== id)
       }
     },
     toggleReminder(id) {
-      console.log(id)
-    }
+      this.tasks = this.tasks.map((task) => task.id === id ? { ...task, reminder: !task.reminder } : task
+      ) 
+    },
   },
   created() {
     this.tasks = [
@@ -49,7 +57,19 @@ export default{
         text: 'Play badminton ',
         day: '20/2/22 at 9.00am',
         reminder: true,
-      }
+      },
+      // {
+      //   id: 4,
+      //   text: 'Eat ',
+      //   day: '20/2/22 at 8.00pm',
+      //   reminder: false,
+      // },
+      // {
+      //   id: 5,
+      //   text: 'Raid Loot ',
+      //   day: '20/2/22 at 9.00pm',
+      //   reminder: true,
+      // },
     ]
   }
 }
