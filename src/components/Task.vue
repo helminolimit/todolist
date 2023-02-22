@@ -20,7 +20,7 @@ export default {
 
 <style scope>
 
-.fa-solid {
+.fa-trash {
   color: red;
 }
 
