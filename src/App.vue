@@ -1,7 +1,9 @@
 <template>
   <div class="container">
-    <Header title="List to do" />
-    <AddTask @add-task="addTask" />
+    <Header @toggle-add-task="toggleAddTask" title="List to do" :showAddTask="showAddTask" />
+    <div v-show="showAddTask">
+      <AddTask @add-task="addTask" />
+    </div>
     <Tasks @toggle-reminder="toggleReminder" @delete-task="deleteTask" :tasks="tasks"/>
   </div>
 </template>
@@ -17,14 +19,19 @@ export default{
     Header,
     Tasks,
     AddTask,
-},
+  },
   data() {
     return {
       tasks: [],
+      showAddTask: false,
     }
   },
   methods:{
+    toggleAddTask() {
+      this.showAddTask = !this.showAddTask
+    },
     addTask(task) {
+
       this.tasks = [...this.tasks, task]
     },
     deleteTask(id) {
@@ -37,6 +44,7 @@ export default{
       this.tasks = this.tasks.map((task) => task.id === id ? { ...task, reminder: !task.reminder } : task
       ) 
     },
+    
   },
   created() {
     this.tasks = [
@@ -58,20 +66,8 @@ export default{
         day: '20/2/22 at 9.00am',
         reminder: true,
       },
-      // {
-      //   id: 4,
-      //   text: 'Eat ',
-      //   day: '20/2/22 at 8.00pm',
-      //   reminder: false,
-      // },
-      // {
-      //   id: 5,
-      //   text: 'Raid Loot ',
-      //   day: '20/2/22 at 9.00pm',
-      //   reminder: true,
-      // },
     ]
-  }
+  },
 }
 </script>
 
